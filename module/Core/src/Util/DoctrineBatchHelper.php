@@ -10,7 +10,7 @@ use Throwable;
 /**
  * Inspired by ocramius/doctrine-batch-utils https://github.com/Ocramius/DoctrineBatchUtils
  */
-class DoctrineBatchHelper implements DoctrineBatchHelperInterface
+readonly class DoctrineBatchHelper implements DoctrineBatchHelperInterface
 {
     public function __construct(private EntityManagerInterface $em)
     {
