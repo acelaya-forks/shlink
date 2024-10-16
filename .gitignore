@@ -16,3 +16,4 @@ docker-compose.override.yml
 .phpunit.result.cache
 docs/swagger/swagger-inlined.json
 phpcov*
+shlink-dev.local.env
