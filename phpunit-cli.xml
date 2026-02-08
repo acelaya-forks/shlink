@@ -7,6 +7,8 @@
     cacheDirectory="build/.phpunit/cli-tests.cache"
     displayDetailsOnTestsThatTriggerWarnings="true"
     displayDetailsOnTestsThatTriggerDeprecations="true"
+    displayDetailsOnPhpunitNotices="true"
+    displayDetailsOnTestsThatTriggerNotices="true"
 >
     <testsuites>
         <testsuite name="Shlink CLI tests">
