@@ -8,6 +8,7 @@
     displayDetailsOnTestsThatTriggerWarnings="true"
     displayDetailsOnTestsThatTriggerDeprecations="true"
     displayDetailsOnPhpunitNotices="true"
+    displayDetailsOnPhpunitDeprecations="true"
     displayDetailsOnTestsThatTriggerNotices="true"
 >
     <testsuites>

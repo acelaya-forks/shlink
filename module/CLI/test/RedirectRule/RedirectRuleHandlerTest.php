@@ -113,7 +113,7 @@ class RedirectRuleHandlerTest extends TestCase
         array $expectedConditions,
         bool $continue = false,
     ): void {
-        $this->io->expects($this->any())->method('ask')->willReturnCallback(
+        $this->io->method('ask')->willReturnCallback(
             fn (string $message): string|int => match ($message) {
                 'Rule priority (the lower the value, the higher the priority)' => 2, // Add in between existing rules
                 'Long URL to redirect when the rule matches' => 'https://example.com/new-two',
@@ -127,7 +127,7 @@ class RedirectRuleHandlerTest extends TestCase
                 default => '',
             },
         );
-        $this->io->expects($this->any())->method('choice')->willReturnCallback(
+        $this->io->method('choice')->willReturnCallback(
             function (string $message) use (&$callIndex, $type): string {
                 $callIndex++;
 
@@ -241,7 +241,7 @@ class RedirectRuleHandlerTest extends TestCase
     #[Test]
     public function existingRulesCanBeReArranged(): void
     {
-        $this->io->expects($this->any())->method('ask')->willReturnCallback(
+        $this->io->method('ask')->willReturnCallback(
             fn (string $message): string|int => match ($message) {
                 'Rule priority (the lower the value, the higher the priority)' => 1,
                 default => '',

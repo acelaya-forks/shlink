@@ -111,7 +111,7 @@ class DomainServiceTest extends TestCase
     #[Test, AllowMockObjectsWithoutExpectations]
     public function getDomainThrowsExceptionWhenDomainIsNotFound(): void
     {
-        $this->em->method('find')->with(Domain::class, '123')->willReturn(null);
+        $this->em->method('find')->willReturnMap([[Domain::class, '123', null]]);
 
         $this->expectException(DomainNotFoundException::class);
 
@@ -122,7 +122,7 @@ class DomainServiceTest extends TestCase
     public function getDomainReturnsEntityWhenFound(): void
     {
         $domain = Domain::withAuthority('');
-        $this->em->method('find')->with(Domain::class, '123')->willReturn($domain);
+        $this->em->method('find')->willReturnMap([[Domain::class, '123', $domain]]);
 
         $result = $this->domainService->getDomain('123');
 
@@ -136,7 +136,6 @@ class DomainServiceTest extends TestCase
         $this->repo->expects($this->once())->method('findOneByAuthority')->with($authority, $apiKey)->willReturn(
             $foundDomain,
         );
-        $this->em->method('persist')->with($foundDomain ?? $this->isInstanceOf(Domain::class));
 
         $result = $this->domainService->getOrCreate($authority, $apiKey);
 
@@ -168,7 +167,6 @@ class DomainServiceTest extends TestCase
         $this->repo->expects($this->once())->method('findOneByAuthority')->with($authority, $apiKey)->willReturn(
             $foundDomain,
         );
-        $this->em->method('persist')->with($foundDomain ?? $this->isInstanceOf(Domain::class));
 
         $result = $this->domainService->configureNotFoundRedirects($authority, NotFoundRedirects::withRedirects(
             'foo.com',

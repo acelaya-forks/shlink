@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace ShlinkioTest\Shlink\CLI\Util;
 
-use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\MockObject\Generator\Generator;
 use PHPUnit\Framework\MockObject\Stub;
 use Symfony\Component\Console\Application;
@@ -32,7 +31,6 @@ class CliTestUtils
         $command->method('isEnabled')->willReturn(true);
         $command->method('getAliases')->willReturn([]);
         $command->method('getDefinition')->willReturn(new InputDefinition());
-        $command->method('setApplication')->with(Assert::isInstanceOf(Application::class));
 
         return $command;
     }
