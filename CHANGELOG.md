@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com), and this project adheres to [Semantic Versioning](https://semver.org).
 
+## [Unreleased]
+### Added
+* *Nothing*
+
+### Changed
+* [#2573](https://github.com/shlinkio/shlink/issues/2573) Update to PHPUnit 13
+
+### Deprecated
+* *Nothing*
+
+### Removed
+* *Nothing*
+
+### Fixed
+* *Nothing*
+
+
 ## [5.0.0] - 2026-01-09
 ### Added
 * [#2431](https://github.com/shlinkio/shlink/issues/2431) Add new date-based conditions for the dynamic rules redirections system, that allow to perform redirections based on an ISO-8601 date value.

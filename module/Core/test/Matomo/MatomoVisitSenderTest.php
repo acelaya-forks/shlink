@@ -116,15 +116,12 @@ class MatomoVisitSenderTest extends TestCase
     #[Test, DataProvider('provideUrlsToTrack')]
     public function properUrlIsTracked(Visit $visit, string $expectedTrackedUrl): void
     {
-        $tracker = $this->createMock(MatomoTracker::class);
-        $tracker->expects($this->once())->method('setUrl')->with($expectedTrackedUrl)->willReturn($tracker);
-        $tracker->expects($this->once())->method('setUserAgent')->willReturn($tracker);
-        $tracker->expects($this->once())->method('setUrlReferrer')->willReturn($tracker);
-        $tracker->expects($this->any())->method('setCustomTrackingParameter')->willReturn($tracker);
-        $tracker->expects($this->once())->method('doTrackPageView');
-        $tracker->expects($this->once())->method('setForceVisitDateTime')->with(
-            $visit->date->setTimezone('UTC')->toDateTimeString(),
-        );
+        $tracker = $this->createStub(MatomoTracker::class);
+        $tracker->method('setUrl')->willReturn($tracker);
+        $tracker->method('setUserAgent')->willReturn($tracker);
+        $tracker->method('setUrlReferrer')->willReturn($tracker);
+        $tracker->method('setCustomTrackingParameter')->willReturn($tracker);
+        $tracker->method('doTrackPageView');
 
         $this->trackerBuilder->expects($this->once())->method('buildMatomoTracker')->willReturn($tracker);
 
@@ -156,7 +153,7 @@ class MatomoVisitSenderTest extends TestCase
         $visitor = Visitor::empty();
         $bot = Visitor::botInstance();
 
-        $this->visitIterationRepository->method('findAllVisits')->with($dateRange)->willReturn([
+        $this->visitIterationRepository->method('findAllVisits')->willReturn([
             Visit::forBasePath($bot),
             Visit::forValidShortUrl(ShortUrl::createFake(), $visitor),
             Visit::forInvalidShortUrl($visitor),

@@ -229,7 +229,7 @@ class ImportedLinksProcessorTest extends TestCase
         $this->em->expects($this->exactly($amountOfPersistedVisits + ($foundShortUrl === null ? 1 : 0)))->method(
             'persist',
         )->with($this->callback(fn (object $arg) => $arg instanceof ShortUrl || $arg instanceof Visit));
-        $this->em->expects($this->any())->method('find')->willReturn(null);
+        $this->em->method('find')->willReturn(null);
         $this->io->expects($this->once())->method('text')->with($this->stringContains($expectedOutput));
 
         $this->processor->process($this->io, ImportResult::withShortUrls([$importedUrl]), $this->buildParams());
