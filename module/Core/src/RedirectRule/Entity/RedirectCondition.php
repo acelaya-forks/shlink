@@ -247,11 +247,11 @@ class RedirectCondition extends AbstractEntity implements JsonSerializable
             ),
             RedirectConditionType::ANY_VALUE_QUERY_PARAM => sprintf(
                 'query string contains %s param',
-                $this->matchValue,
+                $this->matchValue, // FIXME This should be $this->matchKey
             ),
             RedirectConditionType::VALUELESS_QUERY_PARAM => sprintf(
                 'query string contains %s param without a value (https://example.com?foo)',
-                $this->matchValue,
+                $this->matchValue, // FIXME This should be $this->matchKey
             ),
             RedirectConditionType::IP_ADDRESS => sprintf('IP address matches %s', $this->matchValue),
             RedirectConditionType::GEOLOCATION_COUNTRY_CODE => sprintf('country code is %s', $this->matchValue),
