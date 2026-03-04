@@ -4,12 +4,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com), and this project adheres to [Semantic Versioning](https://semver.org).
 
-## [Unreleased]
+## [5.0.1] - 2026-03-04
 ### Added
 * *Nothing*
 
 ### Changed
 * [#2573](https://github.com/shlinkio/shlink/issues/2573) Update to PHPUnit 13
+* [#2579](https://github.com/shlinkio/shlink/issues/2579) Update docker images to Alpine 3.22, to address [CVE-2025-15467](https://nvd.nist.gov/vuln/detail/CVE-2025-15467)
 
 ### Deprecated
 * *Nothing*
