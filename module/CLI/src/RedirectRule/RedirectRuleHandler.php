@@ -6,6 +6,7 @@ namespace Shlinkio\Shlink\CLI\RedirectRule;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Shlinkio\Shlink\Core\Exception\InvalidArgumentException;
+use Shlinkio\Shlink\Core\Model\Browser;
 use Shlinkio\Shlink\Core\Model\DeviceType;
 use Shlinkio\Shlink\Core\RedirectRule\Entity\RedirectCondition;
 use Shlinkio\Shlink\Core\RedirectRule\Entity\ShortUrlRedirectRule;
@@ -129,6 +130,9 @@ class RedirectRuleHandler implements RedirectRuleHandlerInterface
                 ),
                 RedirectConditionType::AFTER_DATE => RedirectCondition::forAfterDate(
                     normalizeDate($this->askMandatory('Date to match?', $io)),
+                ),
+                RedirectConditionType::BROWSER => RedirectCondition::forBrowser(
+                    Browser::from($io->choice('Browser to match?', enumValues(Browser::class))),
                 ),
             };
 

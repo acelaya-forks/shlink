@@ -12,6 +12,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\CLI\RedirectRule\RedirectRuleHandler;
 use Shlinkio\Shlink\CLI\RedirectRule\RedirectRuleHandlerAction;
+use Shlinkio\Shlink\Core\Model\Browser;
 use Shlinkio\Shlink\Core\Model\DeviceType;
 use Shlinkio\Shlink\Core\RedirectRule\Entity\RedirectCondition;
 use Shlinkio\Shlink\Core\RedirectRule\Entity\ShortUrlRedirectRule;
@@ -135,6 +136,8 @@ class RedirectRuleHandlerTest extends TestCase
                     return $type->value;
                 } elseif ($message === 'Device to match?') {
                     return DeviceType::ANDROID->value;
+                } elseif ($message === 'Browser to match?') {
+                    return Browser::CHROME->value;
                 }
 
                 // First we select remove action to trigger code branch, then save to finish execution
@@ -180,22 +183,23 @@ class RedirectRuleHandlerTest extends TestCase
             true,
         ];
         yield 'IP address' => [RedirectConditionType::IP_ADDRESS, [RedirectCondition::forIpAddress('1.2.3.4')]];
-        yield 'Geolocation country code' => [
+        yield 'geolocation country code' => [
             RedirectConditionType::GEOLOCATION_COUNTRY_CODE,
             [RedirectCondition::forGeolocationCountryCode('FR')],
         ];
-        yield 'Geolocation city name' => [
+        yield 'geolocation city name' => [
             RedirectConditionType::GEOLOCATION_CITY_NAME,
             [RedirectCondition::forGeolocationCityName('Los angeles')],
         ];
-        yield 'Before date' => [
+        yield 'before date' => [
             RedirectConditionType::BEFORE_DATE,
             [RedirectCondition::forBeforeDate(normalizeDate('2016-05-01T20:34:16+02:00'))],
         ];
-        yield 'After date' => [
+        yield 'after date' => [
             RedirectConditionType::AFTER_DATE,
             [RedirectCondition::forAfterDate(normalizeDate('2016-05-01T20:34:16+02:00'))],
         ];
+        yield 'browser' => [RedirectConditionType::BROWSER, [RedirectCondition::forBrowser(Browser::CHROME)]];
     }
 
     #[Test]

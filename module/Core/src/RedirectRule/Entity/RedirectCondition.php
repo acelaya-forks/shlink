@@ -6,6 +6,7 @@ use Cake\Chronos\Chronos;
 use JsonSerializable;
 use Psr\Http\Message\ServerRequestInterface;
 use Shlinkio\Shlink\Common\Entity\AbstractEntity;
+use Shlinkio\Shlink\Core\Model\Browser;
 use Shlinkio\Shlink\Core\Model\DeviceType;
 use Shlinkio\Shlink\Core\RedirectRule\Model\RedirectConditionType;
 use Shlinkio\Shlink\Core\RedirectRule\Model\Validation\RedirectRulesInputFilter;
@@ -87,6 +88,11 @@ class RedirectCondition extends AbstractEntity implements JsonSerializable
         return new self(RedirectConditionType::AFTER_DATE, $date->toAtomString());
     }
 
+    public static function forBrowser(Browser $browser): self
+    {
+        return new self(RedirectConditionType::BROWSER, $browser->value);
+    }
+
     public static function fromRawData(array $rawData): self
     {
         $type = RedirectConditionType::from($rawData[RedirectRulesInputFilter::CONDITION_TYPE]);
@@ -114,6 +120,7 @@ class RedirectCondition extends AbstractEntity implements JsonSerializable
             RedirectConditionType::GEOLOCATION_CITY_NAME => self::forGeolocationCityName($cond->matchValue),
             RedirectConditionType::BEFORE_DATE => self::forBeforeDate(normalizeDate($cond->matchValue)),
             RedirectConditionType::AFTER_DATE => self::forAfterDate(normalizeDate($cond->matchValue)),
+            RedirectConditionType::BROWSER => self::forBrowser(Browser::from($cond->matchValue)),
         };
     }
 
@@ -133,6 +140,7 @@ class RedirectCondition extends AbstractEntity implements JsonSerializable
             RedirectConditionType::GEOLOCATION_CITY_NAME => $this->matchesGeolocationCityName($request),
             RedirectConditionType::BEFORE_DATE => $this->matchesBeforeDate(),
             RedirectConditionType::AFTER_DATE => $this->matchesAfterDate(),
+            RedirectConditionType::BROWSER => $this->matchesBrowser($request),
         };
     }
 
@@ -226,6 +234,12 @@ class RedirectCondition extends AbstractEntity implements JsonSerializable
         return Chronos::now()->greaterThan(Chronos::parse($this->matchValue));
     }
 
+    private function matchesBrowser(ServerRequestInterface $request): bool
+    {
+        $browser = Browser::matchFromUserAgent($request->getHeaderLine('User-Agent'));
+        return $browser !== null && $browser->value === $this->matchValue;
+    }
+
     public function jsonSerialize(): array
     {
         return [
@@ -258,6 +272,7 @@ class RedirectCondition extends AbstractEntity implements JsonSerializable
             RedirectConditionType::GEOLOCATION_CITY_NAME => sprintf('city name is %s', $this->matchValue),
             RedirectConditionType::BEFORE_DATE => sprintf('date is before %s', $this->matchValue),
             RedirectConditionType::AFTER_DATE => sprintf('date is after %s', $this->matchValue),
+            RedirectConditionType::BROWSER => sprintf('browser is %s', $this->matchValue),
         };
     }
 }
