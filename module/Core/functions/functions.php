@@ -8,10 +8,11 @@ use BackedEnum;
 use Cake\Chronos\Chronos;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping\Builder\FieldBuilder;
+use donatj\UserAgent\UserAgent;
+use donatj\UserAgent\UserAgentParser;
 use GuzzleHttp\Psr7\Query;
 use Hidehalo\Nanoid\Client as NanoidClient;
 use Jaybizzle\CrawlerDetect\CrawlerDetect;
-use Laminas\Filter\Word\CamelCaseToSeparator;
 use Laminas\Filter\Word\CamelCaseToUnderscore;
 use Laminas\InputFilter\InputFilter;
 use Psr\Http\Message\ServerRequestInterface;
@@ -35,7 +36,6 @@ use function str_repeat;
 use function str_replace;
 use function strtolower;
 use function trim;
-use function ucfirst;
 
 use const Shlinkio\Shlink\IP_ADDRESS_REQUEST_ATTRIBUTE;
 
@@ -197,12 +197,14 @@ function arrayToString(array $array, int $indentSize = 4): string
 
 function isCrawler(string $userAgent): bool
 {
-    static $detector;
-    if ($detector === null) {
-        $detector = new CrawlerDetect();
-    }
-
+    static $detector = new CrawlerDetect();
     return $detector->isCrawler($userAgent);
+}
+
+function parseUserAgent(string $userAgent): UserAgent
+{
+    static $uaParser = new UserAgentParser();
+    return $uaParser->parse($userAgent);
 }
 
 function determineTableName(string $tableName, array $emConfig = []): string
@@ -224,16 +226,6 @@ function fieldWithUtf8Charset(FieldBuilder $field, array $emConfig, string $coll
                              ->option('collation', 'utf8mb4_' . $collation),
         default => $field,
     };
-}
-
-function camelCaseToHumanFriendly(string $value): string
-{
-    static $filter;
-    if ($filter === null) {
-        $filter = new CamelCaseToSeparator(' ');
-    }
-
-    return ucfirst($filter->filter($value));
 }
 
 function camelCaseToSnakeCase(string $value): string

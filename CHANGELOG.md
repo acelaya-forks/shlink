@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 
 ## [Unreleased]
 ### Added
+* [#2585](https://github.com/shlinkio/shlink/issues/2585) Add new browser condition for dynamic redirects system.
+
+    This condition accepts the values `chrome`, `firefox`, `edge`, `safari`, `opera` and `android_browser`, to redirect to different places based on specific known web browsers.
+
 * [#2583](https://github.com/shlinkio/shlink/issues/2583) Support redis clusters with sentinels which have their own ACL authentication.
 
 ### Changed

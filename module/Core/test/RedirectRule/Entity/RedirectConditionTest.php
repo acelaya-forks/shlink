@@ -8,6 +8,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\TestCase;
+use Shlinkio\Shlink\Core\Model\Browser;
 use Shlinkio\Shlink\Core\Model\DeviceType;
 use Shlinkio\Shlink\Core\RedirectRule\Entity\RedirectCondition;
 use Shlinkio\Shlink\Core\RedirectRule\Model\RedirectConditionType;
@@ -16,6 +17,10 @@ use Shlinkio\Shlink\IpGeolocation\Model\Location;
 
 use const Shlinkio\Shlink\IP_ADDRESS_REQUEST_ATTRIBUTE;
 use const ShlinkioTest\Shlink\ANDROID_USER_AGENT;
+use const ShlinkioTest\Shlink\BROWSER_CHROME_USER_AGENT;
+use const ShlinkioTest\Shlink\BROWSER_FIREFOX_USER_AGENT;
+use const ShlinkioTest\Shlink\BROWSER_OPERA_USER_AGENT;
+use const ShlinkioTest\Shlink\BROWSER_SAFARI_USER_AGENT;
 use const ShlinkioTest\Shlink\CHROMEOS_USER_AGENT;
 use const ShlinkioTest\Shlink\IOS_USER_AGENT;
 use const ShlinkioTest\Shlink\LINUX_USER_AGENT;
@@ -225,5 +230,24 @@ class RedirectConditionTest extends TestCase
     {
         yield 'date later than current' => [Chronos::now()->addHours(1), false];
         yield 'date earlier than current' => [Chronos::now()->subHours(1), true];
+    }
+
+    #[Test]
+    #[TestWith([null, Browser::CHROME, false])]
+    #[TestWith(['unknown', Browser::CHROME, false])]
+    #[TestWith([BROWSER_CHROME_USER_AGENT, Browser::CHROME, true])]
+    #[TestWith([BROWSER_FIREFOX_USER_AGENT, Browser::FIREFOX, true])]
+    #[TestWith([BROWSER_SAFARI_USER_AGENT, Browser::SAFARI, true])]
+    #[TestWith([BROWSER_OPERA_USER_AGENT, Browser::OPERA, true])]
+    public function matchesBrowser(string|null $userAgent, Browser $value, bool $expected): void
+    {
+        $request = ServerRequestFactory::fromGlobals();
+        if ($userAgent !== null) {
+            $request = $request->withHeader('User-Agent', $userAgent);
+        }
+
+        $result = RedirectCondition::forBrowser($value)->matchesRequest($request);
+
+        self::assertEquals($expected, $result);
     }
 }
