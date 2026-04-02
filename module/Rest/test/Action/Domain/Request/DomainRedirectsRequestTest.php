@@ -39,7 +39,7 @@ class DomainRedirectsRequestTest extends TestCase
         $request = DomainRedirectsRequest::fromRawData($data);
         $notFound = $request->toNotFoundRedirects($defaults);
 
-        self::assertEquals($expectedAuthority, $request->authority());
+        self::assertEquals($expectedAuthority, $request->authority);
         self::assertEquals($expectedBaseUrlRedirect, $notFound->baseUrlRedirect);
         self::assertEquals($expectedRegular404Redirect, $notFound->regular404Redirect);
         self::assertEquals($expectedInvalidShortUrlRedirect, $notFound->invalidShortUrlRedirect);
