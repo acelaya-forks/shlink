@@ -37,6 +37,7 @@
         "mezzio/mezzio": "^3.20",
         "mezzio/mezzio-fastroute": "^3.12",
         "mezzio/mezzio-problem-details": "^1.15",
+        "mezzio/mezzio-valinor": "^1.0",
         "mlocati/ip-lib": "^1.18.1",
         "pagerfanta/core": "^3.8",
         "ramsey/uuid": "^4.7",
