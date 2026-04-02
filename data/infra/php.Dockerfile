@@ -2,7 +2,7 @@ FROM php:8.5-fpm-alpine3.22
 MAINTAINER Alejandro Celaya <alejandro@alejandrocelaya.com>
 
 ENV APCU_VERSION='5.1.24'
-ENV PDO_SQLSRV_VERSION='5.12.0'
+ENV PDO_SQLSRV_VERSION='5.13.0'
 ENV MS_ODBC_DOWNLOAD='fae28b9a-d880-42fd-9b98-d779f0fdd77f'
 ENV MS_ODBC_SQL_VERSION='18_18.5.1.1'
 
