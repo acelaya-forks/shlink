@@ -147,7 +147,7 @@ class RedirectCondition extends AbstractEntity implements JsonSerializable
     private function matchesQueryParam(ServerRequestInterface $request): bool
     {
         $query = $request->getQueryParams();
-        $queryValue = $query[$this->matchKey] ?? null;
+        $queryValue = $this->matchKey !== null ? ($query[$this->matchKey] ?? null) : null;
 
         return $queryValue === $this->matchValue;
     }
