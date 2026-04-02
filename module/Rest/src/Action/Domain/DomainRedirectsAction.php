@@ -28,7 +28,7 @@ class DomainRedirectsAction extends AbstractRestAction
         $requestData = DomainRedirectsRequest::fromRawData($body);
         $apiKey = AuthenticationMiddleware::apiKeyFromRequest($request);
 
-        $authority = $requestData->authority();
+        $authority = $requestData->authority;
         $domain = $this->domainService->getOrCreate($authority);
         $notFoundRedirects = $requestData->toNotFoundRedirects($domain);
 

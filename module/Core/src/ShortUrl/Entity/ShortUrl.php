@@ -90,7 +90,7 @@ class ShortUrl extends AbstractEntity
         $shortCodeLength = $creation->shortCodeLength;
 
         return new self(
-            longUrl: $creation->getLongUrl(),
+            longUrl: $creation->longUrl,
             shortCode: sprintf(
                 '%s%s',
                 $creation->pathPrefix ?? '',

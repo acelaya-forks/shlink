@@ -97,11 +97,6 @@ final readonly class ShortUrlCreation implements TitleResolutionModelInterface
         );
     }
 
-    public function getLongUrl(): string
-    {
-        return $this->longUrl;
-    }
-
     public function hasValidSince(): bool
     {
         return $this->validSince !== null;
