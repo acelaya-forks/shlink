@@ -13,7 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 * [#2583](https://github.com/shlinkio/shlink/issues/2583) Support redis clusters with sentinels which have their own ACL authentication.
 
 ### Changed
-* *Nothing*
+* [#2555](https://github.com/shlinkio/shlink/issues/2555) Update docker image to PHP 8.5.
 
 ### Deprecated
 * *Nothing*
