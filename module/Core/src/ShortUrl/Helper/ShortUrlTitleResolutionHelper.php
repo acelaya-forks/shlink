@@ -60,7 +60,7 @@ readonly class ShortUrlTitleResolutionHelper implements ShortUrlTitleResolutionH
             return $data;
         }
 
-        $response = $this->fetchUrl($data->getLongUrl());
+        $response = $this->fetchUrl($data->longUrl ?? '');
         if ($response === null) {
             return $data;
         }

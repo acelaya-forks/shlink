@@ -93,11 +93,6 @@ final readonly class ShortUrlEdition implements TitleResolutionModelInterface
         );
     }
 
-    public function getLongUrl(): string
-    {
-        return $this->longUrl ?? '';
-    }
-
     public function longUrlWasProvided(): bool
     {
         return $this->longUrlPropWasProvided && $this->longUrl !== null;

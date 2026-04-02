@@ -14,7 +14,7 @@ use function array_key_exists;
 final readonly class DomainRedirectsRequest
 {
     private function __construct(
-        private(set) string $authority,
+        public string $authority,
         private string|null $baseUrlRedirect = null,
         private bool $baseUrlRedirectWasProvided = false,
         private string|null $regular404Redirect = null,
