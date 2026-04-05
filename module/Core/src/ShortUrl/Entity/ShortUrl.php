@@ -29,9 +29,9 @@ use Shlinkio\Shlink\Rest\Entity\ApiKey;
 
 use function array_map;
 use function count;
+use function Shlinkio\Shlink\Common\normalizeDate;
+use function Shlinkio\Shlink\Common\normalizeOptionalDate;
 use function Shlinkio\Shlink\Core\generateRandomShortCode;
-use function Shlinkio\Shlink\Core\normalizeDate;
-use function Shlinkio\Shlink\Core\normalizeOptionalDate;
 use function sprintf;
 
 class ShortUrl extends AbstractEntity

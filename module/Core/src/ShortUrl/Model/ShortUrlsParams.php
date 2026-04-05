@@ -10,7 +10,7 @@ use Shlinkio\Shlink\Core\Model\Ordering;
 use Shlinkio\Shlink\Core\ShortUrl\Model\Validation\ShortUrlsParamsInputFilter;
 
 use function Shlinkio\Shlink\Common\buildDateRange;
-use function Shlinkio\Shlink\Core\normalizeOptionalDate;
+use function Shlinkio\Shlink\Common\normalizeOptionalDate;
 
 /**
  * Represents all the params that can be used to filter a list of short URLs

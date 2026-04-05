@@ -6,7 +6,6 @@ namespace Shlinkio\Shlink\Core;
 
 use BackedEnum;
 use Cake\Chronos\Chronos;
-use DateTimeInterface;
 use Doctrine\ORM\Mapping\Builder\FieldBuilder;
 use donatj\UserAgent\UserAgent;
 use donatj\UserAgent\UserAgentParser;
@@ -24,12 +23,12 @@ use function array_keys;
 use function array_map;
 use function array_pad;
 use function array_reduce;
-use function date_default_timezone_get;
 use function explode;
 use function implode;
 use function is_array;
 use function print_r;
 use function Shlinkio\Shlink\Common\buildDateRange;
+use function Shlinkio\Shlink\Common\normalizeOptionalDate;
 use function Shlinkio\Shlink\Core\ArrayUtils\map;
 use function sprintf;
 use function str_repeat;
@@ -80,25 +79,6 @@ function dateRangeToHumanFriendly(DateRange|null $dateRange): string
         $endDate !== null => sprintf('Until %s', $endDate->toDateTimeString()),
         default => 'All time',
     };
-}
-
-/**
- * @return ($date is null ? null : Chronos)
- */
-function normalizeOptionalDate(string|DateTimeInterface|Chronos|null $date): Chronos|null
-{
-    $parsedDate = match (true) {
-        $date === null || $date instanceof Chronos => $date,
-        $date instanceof DateTimeInterface => Chronos::instance($date),
-        default => Chronos::parse($date),
-    };
-
-    return $parsedDate?->setTimezone(date_default_timezone_get());
-}
-
-function normalizeDate(string|DateTimeInterface|Chronos $date): Chronos
-{
-    return normalizeOptionalDate($date);
 }
 
 function normalizeLocale(string $locale): string

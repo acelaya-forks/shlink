@@ -14,11 +14,11 @@ use Shlinkio\Shlink\Core\Util\IpAddressUtils;
 use Shlinkio\Shlink\Importer\Model\ImportedShlinkRedirectCondition;
 
 use function array_key_exists;
+use function Shlinkio\Shlink\Common\normalizeDate;
 use function Shlinkio\Shlink\Core\acceptLanguageToLocales;
 use function Shlinkio\Shlink\Core\ArrayUtils\some;
 use function Shlinkio\Shlink\Core\geolocationFromRequest;
 use function Shlinkio\Shlink\Core\ipAddressFromRequest;
-use function Shlinkio\Shlink\Core\normalizeDate;
 use function Shlinkio\Shlink\Core\normalizeLocale;
 use function Shlinkio\Shlink\Core\splitLocale;
 use function sprintf;

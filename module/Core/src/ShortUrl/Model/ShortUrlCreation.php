@@ -11,10 +11,10 @@ use Shlinkio\Shlink\Core\ShortUrl\Helper\TitleResolutionModelInterface;
 use Shlinkio\Shlink\Core\ShortUrl\Model\Validation\ShortUrlInputFilter;
 use Shlinkio\Shlink\Rest\Entity\ApiKey;
 
+use function Shlinkio\Shlink\Common\normalizeOptionalDate;
 use function Shlinkio\Shlink\Core\getNonEmptyOptionalValueFromInputFilter;
 use function Shlinkio\Shlink\Core\getOptionalBoolFromInputFilter;
 use function Shlinkio\Shlink\Core\getOptionalIntFromInputFilter;
-use function Shlinkio\Shlink\Core\normalizeOptionalDate;
 
 use const Shlinkio\Shlink\DEFAULT_SHORT_CODES_LENGTH;
 

@@ -7,7 +7,7 @@ namespace Shlinkio\Shlink\CLI\Input;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
 
-use function Shlinkio\Shlink\Core\normalizeOptionalDate;
+use function Shlinkio\Shlink\Common\normalizeOptionalDate;
 use function sprintf;
 
 final class InputUtils

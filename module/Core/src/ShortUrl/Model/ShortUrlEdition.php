@@ -10,9 +10,9 @@ use Shlinkio\Shlink\Core\ShortUrl\Helper\TitleResolutionModelInterface;
 use Shlinkio\Shlink\Core\ShortUrl\Model\Validation\ShortUrlInputFilter;
 
 use function array_key_exists;
+use function Shlinkio\Shlink\Common\normalizeOptionalDate;
 use function Shlinkio\Shlink\Core\getOptionalBoolFromInputFilter;
 use function Shlinkio\Shlink\Core\getOptionalIntFromInputFilter;
-use function Shlinkio\Shlink\Core\normalizeOptionalDate;
 
 final readonly class ShortUrlEdition implements TitleResolutionModelInterface
 {
