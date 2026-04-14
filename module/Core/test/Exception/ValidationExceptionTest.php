@@ -37,7 +37,7 @@ class ValidationExceptionTest extends TestCase
 
         $e = ValidationException::fromInputFilter($inputFilter, $prev);
 
-        self::assertEquals($invalidData, $e->getInvalidElements());
+        self::assertEquals($invalidData, $e->invalidElements);
         self::assertEquals(['invalidElements' => array_keys($invalidData)], $e->getAdditionalData());
         self::assertEquals('Provided data is not valid', $e->getMessage());
         self::assertEquals(StatusCodeInterface::STATUS_BAD_REQUEST, $e->getCode());

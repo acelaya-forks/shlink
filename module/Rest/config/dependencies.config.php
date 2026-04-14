@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Rest;
 
+use CuyZ\Valinor\Mapper\TreeMapper;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 use Laminas\ServiceManager\Factory\InvokableFactory;
 use Mezzio\ProblemDetails\ProblemDetailsResponseFactory;
@@ -105,7 +106,7 @@ return [
         Action\Tag\DeleteTagsAction::class => [TagService::class],
         Action\Tag\UpdateTagAction::class => [TagService::class],
         Action\Domain\ListDomainsAction::class => [DomainService::class, Config\Options\NotFoundRedirectOptions::class],
-        Action\Domain\DomainRedirectsAction::class => [DomainService::class],
+        Action\Domain\DomainRedirectsAction::class => [DomainService::class, TreeMapper::class],
         Action\RedirectRule\ListRedirectRulesAction::class => [
             ShortUrl\ShortUrlResolver::class,
             RedirectRule\ShortUrlRedirectRuleService::class,

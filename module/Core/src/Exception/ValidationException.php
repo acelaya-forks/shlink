@@ -24,16 +24,21 @@ class ValidationException extends InvalidArgumentException implements ProblemDet
     private const string TITLE = 'Invalid data';
     public const string ERROR_CODE = 'invalid-data';
 
-    private array $invalidElements;
+    private(set) array $invalidElements;
 
     /**
      * @param InputFilterInterface<mixed> $inputFilter
+     * @deprecated
      */
     public static function fromInputFilter(InputFilterInterface $inputFilter, Throwable|null $prev = null): self
     {
+        // @phpstan-ignore-next-line
         return static::fromArray($inputFilter->getMessages(), $prev);
     }
 
+    /**
+     * @param array<string, string[]|string> $invalidData
+     */
     public static function fromArray(array $invalidData, Throwable|null $prev = null): self
     {
         $status = StatusCodeInterface::STATUS_BAD_REQUEST;
@@ -52,11 +57,6 @@ class ValidationException extends InvalidArgumentException implements ProblemDet
         return $e;
     }
 
-    public function getInvalidElements(): array
-    {
-        return $this->invalidElements;
-    }
-
     public function __toString(): string
     {
         return sprintf(
@@ -66,7 +66,7 @@ class ValidationException extends InvalidArgumentException implements ProblemDet
             $this->getFile(),
             $this->getLine(),
             PHP_EOL,
-            arrayToString($this->getInvalidElements()),
+            arrayToString($this->invalidElements),
             PHP_EOL,
             PHP_EOL,
             $this->getTraceAsString(),
