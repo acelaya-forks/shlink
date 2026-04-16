@@ -7,7 +7,6 @@ namespace Shlinkio\Shlink\CLI\Command\ShortUrl;
 use Shlinkio\Shlink\CLI\Command\ShortUrl\Input\ShortUrlDataInput;
 use Shlinkio\Shlink\Core\Exception\ShortUrlNotFoundException;
 use Shlinkio\Shlink\Core\ShortUrl\Helper\ShortUrlStringifierInterface;
-use Shlinkio\Shlink\Core\ShortUrl\Model\ShortUrlEdition;
 use Shlinkio\Shlink\Core\ShortUrl\Model\ShortUrlIdentifier;
 use Shlinkio\Shlink\Core\ShortUrl\ShortUrlServiceInterface;
 use Symfony\Component\Console\Attribute\Argument;
@@ -46,7 +45,7 @@ class EditShortUrlCommand extends Command
         try {
             $shortUrl = $this->shortUrlService->updateShortUrl(
                 $identifier,
-                ShortUrlEdition::fromRawData($data->toArray()),
+                $data->toShortUrlEdition($longUrl),
             );
 
             $io->success(sprintf('Short URL "%s" properly edited', $this->stringifier->stringify($shortUrl)));

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\CLI\Command\ShortUrl\Input;
 
+use Shlinkio\Shlink\Core\ShortUrl\Model\ShortUrlEdition;
 use Shlinkio\Shlink\Core\ShortUrl\Model\Validation\ShortUrlInputFilter;
 use Symfony\Component\Console\Attribute\Option;
 
@@ -76,5 +77,15 @@ final class ShortUrlDataInput
         }
 
         return $data;
+    }
+
+    public function toShortUrlEdition(string|null $longUrl): ShortUrlEdition
+    {
+        $data = $this->toArray();
+        if ($longUrl !== null) {
+            $data[ShortUrlInputFilter::LONG_URL] = $longUrl;
+        }
+
+        return ShortUrlEdition::fromRawData($data);
     }
 }
