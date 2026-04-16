@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 ### Added
 * [#2585](https://github.com/shlinkio/shlink/issues/2585) Add new browser condition for dynamic redirects system.
 
-    This condition accepts the values `chrome`, `firefox`, `edge`, `safari`, `opera` and `android_browser`, to redirect to different places based on specific known web browsers.
+  This condition accepts the values `chrome`, `firefox`, `edge`, `safari`, `opera` and `android_browser`, to redirect to different places based on specific known web browsers.
 
 * [#2583](https://github.com/shlinkio/shlink/issues/2583) Support redis clusters with sentinels which have their own ACL authentication.
 
@@ -23,6 +23,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 
 ### Fixed
 * *Nothing*
+
+
+## [5.0.2] - 2026-04-16
+### Added
+* *Nothing*
+
+### Changed
+* *Nothing*
+
+### Deprecated
+* *Nothing*
+
+### Removed
+* *Nothing*
+
+### Fixed
+* [#2593](https://github.com/shlinkio/shlink/issues/2593) Fix long URL being ignored when editing a short URL via `short-url:edit` console command.
 
 
 ## [5.0.1] - 2026-03-04

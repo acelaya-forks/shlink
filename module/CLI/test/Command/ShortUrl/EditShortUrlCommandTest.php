@@ -10,6 +10,7 @@ use Shlinkio\Shlink\CLI\Command\ShortUrl\EditShortUrlCommand;
 use Shlinkio\Shlink\Core\Exception\ShortUrlNotFoundException;
 use Shlinkio\Shlink\Core\ShortUrl\Entity\ShortUrl;
 use Shlinkio\Shlink\Core\ShortUrl\Helper\ShortUrlStringifierInterface;
+use Shlinkio\Shlink\Core\ShortUrl\Model\ShortUrlEdition;
 use Shlinkio\Shlink\Core\ShortUrl\Model\ShortUrlIdentifier;
 use Shlinkio\Shlink\Core\ShortUrl\ShortUrlServiceInterface;
 use ShlinkioTest\Shlink\CLI\Util\CliTestUtils;
@@ -35,12 +36,16 @@ class EditShortUrlCommandTest extends TestCase
     #[Test]
     public function successMessageIsPrintedIfNoErrorOccurs(): void
     {
-        $this->shortUrlService->expects($this->once())->method('updateShortUrl')->willReturn(
+        $newLongUrl = 'https://example.com';
+        $this->shortUrlService->expects($this->once())->method('updateShortUrl')->with(
+            ShortUrlIdentifier::fromShortCodeAndDomain('foobar'),
+            $this->callback(static fn (ShortUrlEdition $edition): bool => $edition->longUrl === $newLongUrl),
+        )->willReturn(
             ShortUrl::createFake(),
         );
         $this->stringifier->expects($this->once())->method('stringify')->willReturn('https://s.test/foo');
 
-        $this->commandTester->execute(['short-code' => 'foobar']);
+        $this->commandTester->execute(['short-code' => 'foobar', '--long-url' => $newLongUrl]);
         $output = $this->commandTester->getDisplay();
         $exitCode = $this->commandTester->getStatusCode();
 
