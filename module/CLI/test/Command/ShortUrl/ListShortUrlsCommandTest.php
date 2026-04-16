@@ -12,6 +12,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Shlinkio\Shlink\CLI\Command\ShortUrl\ListShortUrlsCommand;
 use Shlinkio\Shlink\Common\Paginator\Paginator;
+use Shlinkio\Shlink\Core\Model\Ordering;
 use Shlinkio\Shlink\Core\ShortUrl\Entity\ShortUrl;
 use Shlinkio\Shlink\Core\ShortUrl\Helper\ShortUrlStringifier;
 use Shlinkio\Shlink\Core\ShortUrl\Model\ShortUrlCreation;
@@ -92,7 +93,7 @@ class ListShortUrlsCommandTest extends TestCase
     {
         $page = 5;
         $this->shortUrlService->expects($this->once())->method('listShortUrls')->with(
-            ShortUrlsParams::fromRawData(['page' => $page]),
+            new ShortUrlsParams(page: $page),
         )->willReturn(new Paginator(new ArrayAdapter([])));
 
         $this->commandTester->setInputs(['y']);
@@ -204,15 +205,15 @@ class ListShortUrlsCommandTest extends TestCase
         int|null $page,
         string|null $searchTerm,
         array|null $tags,
-        string $tagsMode,
+        TagsMode $tagsMode,
         string|null $startDate = null,
         string|null $endDate = null,
         array|null $excludeTags = null,
-        string $excludeTagsMode = TagsMode::ANY->value,
+        TagsMode $excludeTagsMode = TagsMode::ANY,
         string|null $apiKeyName = null,
     ): void {
         $expectedData = [
-            'page' => $page,
+            'page' => $page ?? 1,
             'searchTerm' => $searchTerm,
             'tagsMode' => $tagsMode,
             'startDate' => $startDate !== null ? Chronos::parse($startDate)->toAtomString() : null,
@@ -228,8 +229,8 @@ class ListShortUrlsCommandTest extends TestCase
             $expectedData['excludeTags'] = $excludeTags;
         }
 
-        $this->shortUrlService->expects($this->once())->method('listShortUrls')->with(ShortUrlsParams::fromRawData(
-            $expectedData,
+        $this->shortUrlService->expects($this->once())->method('listShortUrls')->with(new ShortUrlsParams(
+            ...$expectedData,
         ))->willReturn(new Paginator(new ArrayAdapter([])));
 
         $this->commandTester->setInputs(['n']);
@@ -238,23 +239,23 @@ class ListShortUrlsCommandTest extends TestCase
 
     public static function provideArgs(): iterable
     {
-        yield [[], 1, null, [], TagsMode::ANY->value];
-        yield [['--page' => $page = 3], $page, null, [], TagsMode::ANY->value];
-        yield [['--tags-all' => true, '--tag' => ['foo']], 1, null, ['foo'], TagsMode::ALL->value];
-        yield [['--search-term' => $searchTerm = 'search this'], 1, $searchTerm, [], TagsMode::ANY->value];
+        yield [[], 1, null, [], TagsMode::ANY];
+        yield [['--page' => $page = 3], $page, null, [], TagsMode::ANY];
+        yield [['--tags-all' => true, '--tag' => ['foo']], 1, null, ['foo'], TagsMode::ALL];
+        yield [['--search-term' => $searchTerm = 'search this'], 1, $searchTerm, [], TagsMode::ANY];
         yield [
             ['--page' => $page = 3, '--search-term' => $searchTerm = 'search this', '--tag' => $tags = ['foo', 'bar']],
             $page,
             $searchTerm,
             $tags,
-            TagsMode::ANY->value,
+            TagsMode::ANY,
         ];
         yield [
             ['--start-date' => $startDate = '2019-01-01'],
             1,
             null,
             [],
-            TagsMode::ANY->value,
+            TagsMode::ANY,
             $startDate,
         ];
         yield [
@@ -262,7 +263,7 @@ class ListShortUrlsCommandTest extends TestCase
             1,
             null,
             [],
-            TagsMode::ANY->value,
+            TagsMode::ANY,
             null,
             $endDate,
         ];
@@ -271,7 +272,7 @@ class ListShortUrlsCommandTest extends TestCase
             1,
             null,
             [],
-            TagsMode::ANY->value,
+            TagsMode::ANY,
             $startDate,
             $endDate,
         ];
@@ -280,22 +281,22 @@ class ListShortUrlsCommandTest extends TestCase
             1,
             null,
             null,
-            TagsMode::ANY->value,
+            TagsMode::ANY,
             null,
             null,
             ['foo', 'bar'],
-            TagsMode::ALL->value,
+            TagsMode::ALL,
         ];
         yield [
             ['--api-key-name' => 'foo'],
             1,
             null,
             [],
-            TagsMode::ANY->value,
+            TagsMode::ANY,
             null,
             null,
             [],
-            TagsMode::ANY->value,
+            TagsMode::ANY,
             'foo',
         ];
     }
@@ -303,9 +304,9 @@ class ListShortUrlsCommandTest extends TestCase
     #[Test, DataProvider('provideOrderBy')]
     public function orderByIsProperlyComputed(array $commandArgs, string|null $expectedOrderBy): void
     {
-        $this->shortUrlService->expects($this->once())->method('listShortUrls')->with(ShortUrlsParams::fromRawData([
-            'orderBy' => $expectedOrderBy,
-        ]))->willReturn(new Paginator(new ArrayAdapter([])));
+        $this->shortUrlService->expects($this->once())->method('listShortUrls')->with(new ShortUrlsParams(
+            orderBy: Ordering::fromOptionalString($expectedOrderBy),
+        ))->willReturn(new Paginator(new ArrayAdapter([])));
 
         $this->commandTester->setInputs(['n']);
         $this->commandTester->execute($commandArgs);
@@ -321,16 +322,10 @@ class ListShortUrlsCommandTest extends TestCase
     #[Test]
     public function requestingAllElementsWillSetItemsPerPage(): void
     {
-        $this->shortUrlService->expects($this->once())->method('listShortUrls')->with(ShortUrlsParams::fromRawData([
-            'page' => 1,
-            'searchTerm' => null,
-            'tags' => [],
-            'tagsMode' => TagsMode::ANY->value,
-            'startDate' => null,
-            'endDate' => null,
-            'orderBy' => null,
-            'itemsPerPage' => Paginator::ALL_ITEMS,
-        ]))->willReturn(new Paginator(new ArrayAdapter([])));
+        $this->shortUrlService->expects($this->once())->method('listShortUrls')->with(new ShortUrlsParams(
+            itemsPerPage: Paginator::ALL_ITEMS,
+            tagsMode: TagsMode::ANY,
+        ))->willReturn(new Paginator(new ArrayAdapter([])));
 
         $this->commandTester->execute(['--all' => true]);
     }

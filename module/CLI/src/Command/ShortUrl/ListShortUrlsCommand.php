@@ -12,7 +12,6 @@ use Shlinkio\Shlink\Core\Domain\Entity\Domain;
 use Shlinkio\Shlink\Core\ShortUrl\Entity\ShortUrl;
 use Shlinkio\Shlink\Core\ShortUrl\Model\ShortUrlsParams;
 use Shlinkio\Shlink\Core\ShortUrl\Model\ShortUrlWithDeps;
-use Shlinkio\Shlink\Core\ShortUrl\Model\Validation\ShortUrlsParamsInputFilter;
 use Shlinkio\Shlink\Core\ShortUrl\ShortUrlListServiceInterface;
 use Shlinkio\Shlink\Core\ShortUrl\Transformer\ShortUrlDataTransformerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -44,17 +43,13 @@ class ListShortUrlsCommand extends Command
         InputInterface $input,
         #[MapInput] ShortUrlsParamsInput $paramsInput,
     ): int {
-        $page = $paramsInput->page;
-        $data = $paramsInput->toArray($io);
-
         $columnsMap = $this->resolveColumnsMap($input);
         do {
-            $data[ShortUrlsParamsInputFilter::PAGE] = $page;
-            $result = $this->renderPage($io, $columnsMap, ShortUrlsParams::fromRawData($data), $paramsInput->all);
-            $page++;
+            $result = $this->renderPage($io, $columnsMap, $paramsInput->toParams($io), $paramsInput->all);
+            $paramsInput->page += 1;
 
             $continue = $result->hasNextPage() && $io->confirm(
-                sprintf('Continue with page <options=bold>%s</>?', $page),
+                sprintf('Continue with page <options=bold>%s</>?', $paramsInput->page),
                 default: false,
             );
         } while ($continue);

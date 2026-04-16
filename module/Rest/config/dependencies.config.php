@@ -99,6 +99,7 @@ return [
         Action\ShortUrl\ListShortUrlsAction::class => [
             ShortUrl\ShortUrlListService::class,
             ShortUrlDataTransformer::class,
+            TreeMapper::class,
         ],
         Action\ShortUrl\DeleteShortUrlVisitsAction::class => [ShortUrl\ShortUrlVisitsDeleter::class],
         Action\Tag\ListTagsAction::class => [TagService::class],

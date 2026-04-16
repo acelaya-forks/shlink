@@ -8,12 +8,11 @@ use Shlinkio\Shlink\CLI\Command\ShortUrl\ListShortUrlsCommand;
 use Shlinkio\Shlink\CLI\Input\InputUtils;
 use Shlinkio\Shlink\Common\Paginator\Paginator;
 use Shlinkio\Shlink\Core\Domain\Entity\Domain;
+use Shlinkio\Shlink\Core\Model\Ordering;
+use Shlinkio\Shlink\Core\ShortUrl\Model\ShortUrlsParams;
 use Shlinkio\Shlink\Core\ShortUrl\Model\TagsMode;
-use Shlinkio\Shlink\Core\ShortUrl\Model\Validation\ShortUrlsParamsInputFilter;
 use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Output\OutputInterface;
-
-use function array_unique;
 
 /**
  * Input arguments and options for short-url:list command
@@ -86,36 +85,23 @@ final class ShortUrlsParamsInput
     #[Option('Whether to display the API key name from which the URL was generated or not', shortcut: 'k')]
     public bool $showApiKey = false;
 
-    public function toArray(OutputInterface $output): array
+    public function toParams(OutputInterface $output): ShortUrlsParams
     {
-        $data = [
-            ShortUrlsParamsInputFilter::PAGE => $this->page,
-            ShortUrlsParamsInputFilter::SEARCH_TERM => $this->searchTerm,
-            ShortUrlsParamsInputFilter::DOMAIN => $this->domain,
-            ShortUrlsParamsInputFilter::ORDER_BY => $this->orderBy,
-            ShortUrlsParamsInputFilter::START_DATE => InputUtils::processDate('start-date', $this->startDate, $output),
-            ShortUrlsParamsInputFilter::END_DATE => InputUtils::processDate('end-date', $this->endDate, $output),
-            ShortUrlsParamsInputFilter::EXCLUDE_MAX_VISITS_REACHED => $this->excludeMaxVisitsReached,
-            ShortUrlsParamsInputFilter::EXCLUDE_PAST_VALID_UNTIL => $this->excludePastValidUntil,
-            ShortUrlsParamsInputFilter::API_KEY_NAME => $this->apiKeyName,
-        ];
-
-        if ($this->tags !== null) {
-            $tagsMode = $this->tagsAll ? TagsMode::ALL : TagsMode::ANY;
-            $data[ShortUrlsParamsInputFilter::TAGS_MODE] = $tagsMode->value;
-            $data[ShortUrlsParamsInputFilter::TAGS] = array_unique($this->tags);
-        }
-
-        if ($this->excludeTags !== null) {
-            $excludeTagsMode = $this->excludeTagsAll ? TagsMode::ALL : TagsMode::ANY;
-            $data[ShortUrlsParamsInputFilter::EXCLUDE_TAGS_MODE] = $excludeTagsMode->value;
-            $data[ShortUrlsParamsInputFilter::EXCLUDE_TAGS] = array_unique($this->excludeTags);
-        }
-
-        if ($this->all) {
-            $data[ShortUrlsParamsInputFilter::ITEMS_PER_PAGE] = Paginator::ALL_ITEMS;
-        }
-
-        return $data;
+        return new ShortUrlsParams(
+            page: $this->page,
+            itemsPerPage: $this->all ? Paginator::ALL_ITEMS : ShortUrlsParams::DEFAULT_ITEMS_PER_PAGE,
+            searchTerm: $this->searchTerm,
+            tags: $this->tags ?? [],
+            orderBy: Ordering::fromOptionalString($this->orderBy),
+            startDate: InputUtils::processDate('start-date', $this->startDate, $output),
+            endDate: InputUtils::processDate('end-date', $this->endDate, $output),
+            excludeMaxVisitsReached: $this->excludeMaxVisitsReached,
+            excludePastValidUntil: $this->excludePastValidUntil,
+            tagsMode: $this->tagsAll ? TagsMode::ALL : TagsMode::ANY,
+            domain: $this->domain,
+            excludeTags: $this->excludeTags ?? [],
+            excludeTagsMode: $this->excludeTagsAll ? TagsMode::ALL : TagsMode::ANY,
+            apiKeyName: $this->apiKeyName,
+        );
     }
 }
