@@ -8,9 +8,7 @@ use DateTimeInterface;
 use Laminas\Filter;
 use Laminas\InputFilter\InputFilter;
 use Laminas\Validator;
-use Shlinkio\Shlink\Common\Validation\HostAndPortValidator;
 use Shlinkio\Shlink\Common\Validation\InputFactory;
-use Shlinkio\Shlink\Core\Config\Options\UrlShortenerOptions;
 use Shlinkio\Shlink\Rest\Entity\ApiKey;
 
 use function is_string;
@@ -18,16 +16,15 @@ use function preg_match;
 use function substr;
 
 use const Shlinkio\Shlink\LOOSE_URI_MATCHER;
-use const Shlinkio\Shlink\MIN_SHORT_CODES_LENGTH;
 
-/** @extends InputFilter<mixed> */
+/**
+ * @extends InputFilter<mixed>
+ * @deprecated
+ */
 class ShortUrlInputFilter extends InputFilter
 {
     // Fields for creation only
     public const string SHORT_CODE_LENGTH = 'shortCodeLength';
-    public const string CUSTOM_SLUG = 'customSlug';
-    public const string PATH_PREFIX = 'pathPrefix';
-    public const string FIND_IF_EXISTS = 'findIfExists';
     public const string DOMAIN = 'domain';
 
     // Fields for creation and edition
@@ -41,15 +38,6 @@ class ShortUrlInputFilter extends InputFilter
     public const string FORWARD_QUERY = 'forwardQuery';
     public const string API_KEY = 'apiKey';
 
-    public static function forCreation(array $data, UrlShortenerOptions $options): self
-    {
-        $instance = new self();
-        $instance->initializeForCreation($options);
-        $instance->setData($data);
-
-        return $instance;
-    }
-
     public static function forEdition(array $data): self
     {
         $instance = new self();
@@ -57,38 +45,6 @@ class ShortUrlInputFilter extends InputFilter
         $instance->setData($data);
 
         return $instance;
-    }
-
-    private function initializeForCreation(UrlShortenerOptions $options): void
-    {
-        // The only way to enforce the NotEmpty validator to be evaluated when the key is present with an empty value
-        // is with setContinueIfEmpty(true)
-        $customSlug = InputFactory::basic(self::CUSTOM_SLUG)->setContinueIfEmpty(true);
-        $customSlug->getFilterChain()->attach(new CustomSlugFilter($options));
-        $customSlug->getValidatorChain()
-            ->attach(new Validator\NotEmpty([
-                Validator\NotEmpty::STRING,
-                Validator\NotEmpty::SPACE,
-            ]))
-            ->attach(CustomSlugValidator::forUrlShortenerOptions($options));
-        $this->add($customSlug);
-
-        // The path prefix is subject to the same filtering and validation logic as the custom slug, which takes into
-        // consideration if multi-segment slugs are enabled or not.
-        // The only difference is that empty values are allowed here.
-        $pathPrefix = InputFactory::basic(self::PATH_PREFIX);
-        $pathPrefix->getFilterChain()->attach(new CustomSlugFilter($options));
-        $pathPrefix->getValidatorChain()->attach(CustomSlugValidator::forUrlShortenerOptions($options));
-        $this->add($pathPrefix);
-
-        $this->add(InputFactory::numeric(self::SHORT_CODE_LENGTH, min: MIN_SHORT_CODES_LENGTH));
-        $this->add(InputFactory::boolean(self::FIND_IF_EXISTS));
-
-        $domain = InputFactory::basic(self::DOMAIN);
-        $domain->getValidatorChain()->attach(new HostAndPortValidator());
-        $this->add($domain);
-
-        $this->initializeForEdition(requireLongUrl: true);
     }
 
     private function initializeForEdition(bool $requireLongUrl = false): void

@@ -121,11 +121,11 @@ class ListShortUrlsCommandTest extends TestCase
 
     public static function provideOptionalFlags(): iterable
     {
-        $shortUrl = ShortUrl::create(ShortUrlCreation::fromRawData([
-            'longUrl' => 'https://foo.com',
-            'tags' => ['foo', 'bar', 'baz'],
-            'apiKey' => ApiKey::fromMeta(ApiKeyMeta::fromParams(name: 'my api key')),
-        ]));
+        $shortUrl = ShortUrl::create(new ShortUrlCreation(
+            longUrl: 'https://foo.com',
+            apiKey: ApiKey::fromMeta(ApiKeyMeta::fromParams(name: 'my api key')),
+            tags: ['foo', 'bar', 'baz'],
+        ));
         $shortCode = $shortUrl->getShortCode();
         $created = $shortUrl->dateCreated()->toAtomString();
 

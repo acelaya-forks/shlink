@@ -10,6 +10,7 @@ use Shlinkio\Shlink\Core\Config\Options\UrlShortenerOptions;
 use function is_string;
 use function strpbrk;
 
+/** @deprecated */
 class CustomSlugValidator extends AbstractValidator
 {
     private const string NOT_STRING = 'NOT_STRING';

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Shlinkio\Shlink\Core\ShortUrl\Model;
 
 use DateTimeInterface;
+use Shlinkio\Shlink\Common\ObjectMapper\TagsConverter;
 use Shlinkio\Shlink\Common\Util\DateRange;
 use Shlinkio\Shlink\Core\Model\Ordering;
 use Shlinkio\Shlink\Core\ObjectMapper\OrderingConverter;
@@ -34,6 +35,7 @@ final readonly class ShortUrlsParams
         public int $page = 1,
         public int $itemsPerPage = self::DEFAULT_ITEMS_PER_PAGE,
         public string|null $searchTerm = null,
+        #[TagsConverter]
         array $tags = [],
         #[OrderingConverter]
         public Ordering $orderBy = new Ordering(),
@@ -43,6 +45,7 @@ final readonly class ShortUrlsParams
         public bool $excludePastValidUntil = false,
         public TagsMode $tagsMode = TagsMode::ANY,
         public string|null $domain = null,
+        #[TagsConverter]
         array $excludeTags = [],
         public TagsMode $excludeTagsMode = TagsMode::ANY,
         public string|null $apiKeyName = null,

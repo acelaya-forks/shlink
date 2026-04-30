@@ -6,11 +6,12 @@ namespace Shlinkio\Shlink\CLI\Command\ShortUrl\Input;
 
 use Shlinkio\Shlink\Core\Config\Options\UrlShortenerOptions;
 use Shlinkio\Shlink\Core\ShortUrl\Model\ShortUrlCreation;
-use Shlinkio\Shlink\Core\ShortUrl\Model\Validation\ShortUrlInputFilter;
 use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\Ask;
 use Symfony\Component\Console\Attribute\MapInput;
 use Symfony\Component\Console\Attribute\Option;
+
+use function max;
 
 /**
  * Data used for short URL creation
@@ -43,15 +44,15 @@ final class ShortUrlCreationInput
 
     public function toShortUrlCreation(UrlShortenerOptions $options): ShortUrlCreation
     {
-        $shortCodeLength = $this->shortCodeLength ?? $options->defaultShortCodesLength;
-        return ShortUrlCreation::fromRawData([
-            ShortUrlInputFilter::LONG_URL => $this->longUrl,
-            ShortUrlInputFilter::DOMAIN => $this->domain,
-            ShortUrlInputFilter::CUSTOM_SLUG => $this->customSlug,
-            ShortUrlInputFilter::SHORT_CODE_LENGTH => $shortCodeLength,
-            ShortUrlInputFilter::PATH_PREFIX => $this->pathPrefix,
-            ShortUrlInputFilter::FIND_IF_EXISTS => $this->findIfExists,
+        $shortCodeLength = max(4, $this->shortCodeLength ?? $options->defaultShortCodesLength);
+        return new ShortUrlCreation(
+            $this->longUrl,
             ...$this->commonData->toArray(),
-        ], $options);
+            customSlug: $this->customSlug,
+            pathPrefix: $this->pathPrefix,
+            findIfExists: $this->findIfExists,
+            domain: $this->domain,
+            shortCodeLength: $shortCodeLength,
+        );
     }
 }

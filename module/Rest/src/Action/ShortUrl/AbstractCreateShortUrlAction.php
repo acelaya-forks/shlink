@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Rest\Action\ShortUrl;
 
+use CuyZ\Valinor\Mapper\TreeMapper;
 use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -19,7 +20,8 @@ abstract class AbstractCreateShortUrlAction extends AbstractRestAction
     public function __construct(
         private readonly UrlShortenerInterface $urlShortener,
         private readonly ShortUrlDataTransformerInterface $transformer,
-        protected readonly UrlShortenerOptions $urlShortenerOptions,
+        private readonly UrlShortenerOptions $urlShortenerOptions,
+        private readonly TreeMapper $treeMapper,
     ) {
     }
 
@@ -29,6 +31,15 @@ abstract class AbstractCreateShortUrlAction extends AbstractRestAction
         $result = $this->urlShortener->shorten($shortUrlMeta);
 
         return new JsonResponse($this->transformer->transform($result->shortUrl));
+    }
+
+    protected function mapShortUrlCreation(array $payload): ShortUrlCreation
+    {
+        return $this->treeMapper->map(ShortUrlCreation::class, [
+            ...$payload,
+            'shortUrlMode' => $this->urlShortenerOptions->mode,
+            'multiSegmentSlugsEnabled' => $this->urlShortenerOptions->multiSegmentSlugsEnabled,
+        ]);
     }
 
     /**

@@ -12,6 +12,7 @@ use function str_replace;
 use function strtolower;
 use function trim;
 
+/** @deprecated */
 readonly class CustomSlugFilter implements FilterInterface
 {
     public function __construct(private UrlShortenerOptions $options)

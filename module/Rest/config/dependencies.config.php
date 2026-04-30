@@ -74,11 +74,13 @@ return [
             ShortUrl\UrlShortener::class,
             ShortUrlDataTransformer::class,
             Config\Options\UrlShortenerOptions::class,
+            TreeMapper::class,
         ],
         Action\ShortUrl\SingleStepCreateShortUrlAction::class => [
             ShortUrl\UrlShortener::class,
             ShortUrlDataTransformer::class,
             Config\Options\UrlShortenerOptions::class,
+            TreeMapper::class,
         ],
         Action\ShortUrl\EditShortUrlAction::class => [ShortUrl\ShortUrlService::class, ShortUrlDataTransformer::class],
         Action\ShortUrl\DeleteShortUrlAction::class => [ShortUrl\DeleteShortUrlService::class],
