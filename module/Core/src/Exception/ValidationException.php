@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Shlinkio\Shlink\Core\Exception;
 
 use Fig\Http\Message\StatusCodeInterface;
-use Laminas\InputFilter\InputFilterInterface;
 use Mezzio\ProblemDetails\Exception\CommonProblemDetailsExceptionTrait;
 use Mezzio\ProblemDetails\Exception\ProblemDetailsExceptionInterface;
 use Throwable;
@@ -25,16 +24,6 @@ class ValidationException extends InvalidArgumentException implements ProblemDet
     public const string ERROR_CODE = 'invalid-data';
 
     private(set) array $invalidElements;
-
-    /**
-     * @param InputFilterInterface<mixed> $inputFilter
-     * @deprecated
-     */
-    public static function fromInputFilter(InputFilterInterface $inputFilter, Throwable|null $prev = null): self
-    {
-        // @phpstan-ignore-next-line
-        return static::fromArray($inputFilter->getMessages(), $prev);
-    }
 
     /**
      * @param array<string, string[]|string> $invalidData

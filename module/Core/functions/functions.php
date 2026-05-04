@@ -12,8 +12,6 @@ use donatj\UserAgent\UserAgentParser;
 use GuzzleHttp\Psr7\Query;
 use Hidehalo\Nanoid\Client as NanoidClient;
 use Jaybizzle\CrawlerDetect\CrawlerDetect;
-use Laminas\Filter\Word\CamelCaseToUnderscore;
-use Laminas\InputFilter\InputFilter;
 use Psr\Http\Message\ServerRequestInterface;
 use Shlinkio\Shlink\Common\Util\DateRange;
 use Shlinkio\Shlink\Core\ShortUrl\Model\ShortUrlMode;
@@ -26,6 +24,8 @@ use function array_reduce;
 use function explode;
 use function implode;
 use function is_array;
+use function mb_strtolower;
+use function preg_replace;
 use function print_r;
 use function Shlinkio\Shlink\Common\buildDateRange;
 use function Shlinkio\Shlink\Common\normalizeOptionalDate;
@@ -128,33 +128,6 @@ function splitLocale(string $locale): array
     return [$lang, $countryCode];
 }
 
-/**
- * @param InputFilter<mixed> $inputFilter
- */
-function getOptionalIntFromInputFilter(InputFilter $inputFilter, string $fieldName): int|null
-{
-    $value = $inputFilter->getValue($fieldName);
-    return $value !== null ? (int) $value : null;
-}
-
-/**
- * @param InputFilter<mixed> $inputFilter
- */
-function getOptionalBoolFromInputFilter(InputFilter $inputFilter, string $fieldName): bool|null
-{
-    $value = $inputFilter->getValue($fieldName);
-    return $value !== null ? (bool) $value : null;
-}
-
-/**
- * @param InputFilter<mixed> $inputFilter
- */
-function getNonEmptyOptionalValueFromInputFilter(InputFilter $inputFilter, string $fieldName): mixed
-{
-    $value = $inputFilter->getValue($fieldName);
-    return empty($value) ? null : $value;
-}
-
 function arrayToString(array $array, int $indentSize = 4): string
 {
     $indent = str_repeat(' ', $indentSize);
@@ -210,12 +183,13 @@ function fieldWithUtf8Charset(FieldBuilder $field, array $emConfig, string $coll
 
 function camelCaseToSnakeCase(string $value): string
 {
-    static $filter;
-    if ($filter === null) {
-        $filter = new CamelCaseToUnderscore();
-    }
-
-    return strtolower($filter->filter($value));
+    // Handle cases like "HTTPServerError" -> "http_server_error"
+    $value = preg_replace('/([A-Z])([A-Z][a-z])/u', '$1_$2', $value);
+    // Handle cases like "myVariable" -> "my_variable"
+    // @phpstan-ignore argument.type
+    $value = preg_replace('/([a-z0-9])([A-Z])/u', '$1_$2', $value);
+    // @phpstan-ignore argument.type
+    return mb_strtolower($value);
 }
 
 function toProblemDetailsType(string $errorCode): string
