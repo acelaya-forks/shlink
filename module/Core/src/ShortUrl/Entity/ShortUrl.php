@@ -138,34 +138,34 @@ class ShortUrl extends AbstractEntity
         ShortUrlEdition $shortUrlEdit,
         ShortUrlRelationResolverInterface|null $relationResolver = null,
     ): void {
-        if ($shortUrlEdit->validSinceWasProvided()) {
+        if ($shortUrlEdit->validSinceWasProvided) {
             $this->validSince = $shortUrlEdit->validSince;
         }
-        if ($shortUrlEdit->validUntilWasProvided()) {
+        if ($shortUrlEdit->validUntilWasProvided) {
             $this->validUntil = $shortUrlEdit->validUntil;
         }
-        if ($shortUrlEdit->maxVisitsWasProvided()) {
+        if ($shortUrlEdit->maxVisitsWasProvided) {
             $this->maxVisits = $shortUrlEdit->maxVisits;
         }
         if ($shortUrlEdit->longUrlWasProvided()) {
             $this->longUrl = $shortUrlEdit->longUrl ?? $this->longUrl;
         }
-        if ($shortUrlEdit->tagsWereProvided()) {
+        if ($shortUrlEdit->tagsWereProvided) {
             $relationResolver = $relationResolver ?? new SimpleShortUrlRelationResolver();
             $this->tags = $relationResolver->resolveTags($shortUrlEdit->tags);
         }
-        if ($shortUrlEdit->crawlableWasProvided()) {
+        if ($shortUrlEdit->crawlableWasProvided) {
             $this->crawlable = $shortUrlEdit->crawlable;
         }
         if (
             $this->title === null
-            || $shortUrlEdit->titleWasProvided()
-            || ($this->titleWasAutoResolved && $shortUrlEdit->titleWasAutoResolved())
+            || $shortUrlEdit->titleWasProvided
+            || ($this->titleWasAutoResolved && $shortUrlEdit->titleWasAutoResolved)
         ) {
             $this->title = $shortUrlEdit->title;
-            $this->titleWasAutoResolved = $shortUrlEdit->titleWasAutoResolved();
+            $this->titleWasAutoResolved = $shortUrlEdit->titleWasAutoResolved;
         }
-        if ($shortUrlEdit->forwardQueryWasProvided()) {
+        if ($shortUrlEdit->forwardQueryWasProvided) {
             $this->forwardQuery = $shortUrlEdit->forwardQuery;
         }
     }

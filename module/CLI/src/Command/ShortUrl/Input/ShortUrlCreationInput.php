@@ -44,6 +44,7 @@ final class ShortUrlCreationInput
 
     public function toShortUrlCreation(UrlShortenerOptions $options): ShortUrlCreation
     {
+        // TODO Should create using a TreeMapper
         $shortCodeLength = max(4, $this->shortCodeLength ?? $options->defaultShortCodesLength);
         return new ShortUrlCreation(
             $this->longUrl,

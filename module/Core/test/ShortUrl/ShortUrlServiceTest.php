@@ -76,15 +76,21 @@ class ShortUrlServiceTest extends TestCase
 
     public static function provideShortUrlEdits(): iterable
     {
-        yield 'no long URL' => [new InvokedCount(0), ShortUrlEdition::fromRawData([
-            'validSince' => Chronos::parse('2017-01-01 00:00:00')->toAtomString(),
-            'validUntil' => Chronos::parse('2017-01-05 00:00:00')->toAtomString(),
-            'maxVisits' => 5,
-        ]), null];
-        yield 'long URL and API key' => [new InvokedCount(1), ShortUrlEdition::fromRawData([
-            'validSince' => Chronos::parse('2017-01-01 00:00:00')->toAtomString(),
-            'maxVisits' => 10,
-            'longUrl' => 'https://modifiedLongUrl',
-        ]), ApiKey::create()];
+        yield 'no long URL' => [new InvokedCount(0), new ShortUrlEdition(
+            validSinceWasProvided: true,
+            validSince: Chronos::parse('2017-01-01 00:00:00'),
+            validUntilWasProvided: true,
+            validUntil: Chronos::parse('2017-01-05 00:00:00'),
+            maxVisitsWasProvided: true,
+            maxVisits: 5,
+        ), null];
+        yield 'long URL and API key' => [new InvokedCount(1), new ShortUrlEdition(
+            longUrlWasProvided: true,
+            longUrl: 'https://modifiedLongUrl',
+            validSinceWasProvided: true,
+            validSince: Chronos::parse('2017-01-01 00:00:00'),
+            maxVisitsWasProvided: true,
+            maxVisits: 10,
+        ), ApiKey::create()];
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Shlinkio\Shlink\Rest\Action\ShortUrl;
 
+use CuyZ\Valinor\Mapper\TreeMapper;
 use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -14,6 +15,8 @@ use Shlinkio\Shlink\Core\ShortUrl\Transformer\ShortUrlDataTransformerInterface;
 use Shlinkio\Shlink\Rest\Action\AbstractRestAction;
 use Shlinkio\Shlink\Rest\Middleware\AuthenticationMiddleware;
 
+use function array_key_exists;
+
 class EditShortUrlAction extends AbstractRestAction
 {
     protected const string ROUTE_PATH = '/short-urls/{shortCode}';
@@ -22,12 +25,25 @@ class EditShortUrlAction extends AbstractRestAction
     public function __construct(
         private readonly ShortUrlServiceInterface $shortUrlService,
         private readonly ShortUrlDataTransformerInterface $transformer,
+        private readonly TreeMapper $treeMapper,
     ) {
     }
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $shortUrlEdit = ShortUrlEdition::fromRawData((array) $request->getParsedBody());
+        $body = (array) $request->getParsedBody();
+        $shortUrlEdit = $this->treeMapper->map(ShortUrlEdition::class, [
+            ...$body,
+            'longUrlWasProvided' => array_key_exists('longUrl', $body),
+            'validSinceWasProvided' => array_key_exists('validSince', $body),
+            'validUntilWasProvided' => array_key_exists('validUntil', $body),
+            'maxVisitsWasProvided' => array_key_exists('maxVisits', $body),
+            'tagsWereProvided' => array_key_exists('tags', $body),
+            'titleWasProvided' => array_key_exists('title', $body),
+            'crawlableWasProvided' => array_key_exists('crawlable', $body),
+            'forwardQueryWasProvided' => array_key_exists('forwardQuery', $body),
+        ]);
+
         $identifier = ShortUrlIdentifier::fromApiRequest($request);
         $apiKey = AuthenticationMiddleware::apiKeyFromRequest($request);
 

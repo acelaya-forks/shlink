@@ -36,8 +36,8 @@ final readonly class ShortUrlCreation implements TitleResolutionModelInterface
     public function __construct(
         #[LooseUriConverter]
         public string $longUrl,
-        DateTimeInterface|null $validSince = null,
-        DateTimeInterface|null $validUntil = null,
+        DateTimeInterface|string|null $validSince = null,
+        DateTimeInterface|string|null $validUntil = null,
         public ShortUrlMode $shortUrlMode = ShortUrlMode::STRICT,
         private bool $multiSegmentSlugsEnabled = false,
         string|null $customSlug = null,

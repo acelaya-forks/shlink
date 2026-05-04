@@ -82,7 +82,11 @@ return [
             Config\Options\UrlShortenerOptions::class,
             TreeMapper::class,
         ],
-        Action\ShortUrl\EditShortUrlAction::class => [ShortUrl\ShortUrlService::class, ShortUrlDataTransformer::class],
+        Action\ShortUrl\EditShortUrlAction::class => [
+            ShortUrl\ShortUrlService::class,
+            ShortUrlDataTransformer::class,
+            TreeMapper::class,
+        ],
         Action\ShortUrl\DeleteShortUrlAction::class => [ShortUrl\DeleteShortUrlService::class],
         Action\ShortUrl\ResolveShortUrlAction::class => [
             ShortUrl\ShortUrlResolver::class,

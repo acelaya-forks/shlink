@@ -15,7 +15,7 @@ use Shlinkio\Shlink\Rest\Middleware\AuthenticationMiddleware;
 
 class OverrideDomainMiddleware implements MiddlewareInterface
 {
-    private const string REQUEST_ATTRIBUTE = 'domain';
+    public const string REQUEST_ATTRIBUTE = 'domain';
 
     public function __construct(private readonly DomainServiceInterface $domainService)
     {

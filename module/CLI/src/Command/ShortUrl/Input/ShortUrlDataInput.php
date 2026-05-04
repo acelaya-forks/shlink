@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Shlinkio\Shlink\CLI\Command\ShortUrl\Input;
 
 use Shlinkio\Shlink\Core\ShortUrl\Model\ShortUrlEdition;
-use Shlinkio\Shlink\Core\ShortUrl\Model\Validation\ShortUrlInputFilter;
 use Symfony\Component\Console\Attribute\Option;
 
 use function array_unique;
@@ -55,25 +54,25 @@ final class ShortUrlDataInput
         // Avoid setting arguments that were not explicitly provided.
         // This is important when editing short URLs and should not make a difference when creating.
         if ($this->validSince !== null) {
-            $data[ShortUrlInputFilter::VALID_SINCE] = $this->validSince;
+            $data['validSince'] = $this->validSince;
         }
         if ($this->validUntil !== null) {
-            $data[ShortUrlInputFilter::VALID_UNTIL] = $this->validUntil;
+            $data['validUntil'] = $this->validUntil;
         }
         if ($this->maxVisits !== null) {
-            $data[ShortUrlInputFilter::MAX_VISITS] = $this->maxVisits;
+            $data['maxVisits'] = $this->maxVisits;
         }
         if ($this->tags !== null) {
-            $data[ShortUrlInputFilter::TAGS] = array_unique($this->tags);
+            $data['tags'] = array_unique($this->tags);
         }
         if ($this->title !== null) {
-            $data[ShortUrlInputFilter::TITLE] = $this->title;
+            $data['title'] = $this->title;
         }
         if ($this->crawlable !== null) {
-            $data[ShortUrlInputFilter::CRAWLABLE] = $this->crawlable;
+            $data['crawlable'] = $this->crawlable;
         }
         if ($this->noForwardQuery !== null) {
-            $data[ShortUrlInputFilter::FORWARD_QUERY] = !$this->noForwardQuery;
+            $data['forwardQuery'] = !$this->noForwardQuery;
         }
 
         return $data;
@@ -81,11 +80,23 @@ final class ShortUrlDataInput
 
     public function toShortUrlEdition(string|null $longUrl): ShortUrlEdition
     {
-        $data = $this->toArray();
-        if ($longUrl !== null) {
-            $data[ShortUrlInputFilter::LONG_URL] = $longUrl;
-        }
-
-        return ShortUrlEdition::fromRawData($data);
+        return new ShortUrlEdition(
+            longUrlWasProvided: $longUrl !== null,
+            longUrl: $longUrl,
+            validSinceWasProvided: $this->validSince !== null,
+            validSince: $this->validSince,
+            validUntilWasProvided: $this->validUntil !== null,
+            validUntil: $this->validUntil,
+            maxVisitsWasProvided: $this->maxVisits !== null,
+            maxVisits: $this->maxVisits,
+            tagsWereProvided: $this->tags !== null,
+            tags: $this->tags ?? [],
+            titleWasProvided: $this->title !== null,
+            title: $this->title,
+            crawlableWasProvided: $this->crawlable !== null,
+            crawlable: $this->crawlable ?? false,
+            forwardQueryWasProvided: $this->noForwardQuery !== null,
+            forwardQuery: $this->noForwardQuery !== null && ! $this->noForwardQuery,
+        );
     }
 }
