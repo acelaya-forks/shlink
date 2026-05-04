@@ -121,6 +121,7 @@ return [
         Action\RedirectRule\SetRedirectRulesAction::class => [
             ShortUrl\ShortUrlResolver::class,
             RedirectRule\ShortUrlRedirectRuleService::class,
+            TreeMapper::class,
         ],
 
         Middleware\CrossDomainMiddleware::class => [Config\Options\CorsOptions::class],

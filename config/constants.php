@@ -16,9 +16,6 @@ const LOCAL_LOCK_FACTORY = 'Shlinkio\Shlink\LocalLockFactory';
 const IP_ADDRESS_REQUEST_ATTRIBUTE = 'remote_address';
 const REDIRECT_URL_REQUEST_ATTRIBUTE = 'redirect_url';
 
-/** @deprecated */
-const LOOSE_URI_MATCHER = '/(.+)\:(.+)/i'; // Matches anything starting with a schema.
-
 /**
  * List of ISO 3166-1 alpha-2 two-letter country codes https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
  */
