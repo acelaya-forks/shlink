@@ -13,7 +13,7 @@ use Shlinkio\Shlink\Rest\Entity\ApiKey;
 return static function (ClassMetadata $metadata, array $emConfig): void {
     $builder = new ClassMetadataBuilder($metadata);
 
-    $builder->setTable(determineTableName('short_urls', $emConfig))
+    $builder->setTable('short_urls')
             ->setCustomRepositoryClass(ShortUrl\Repository\ShortUrlRepository::class);
 
     $builder->createField('id', Types::BIGINT)
@@ -77,7 +77,7 @@ return static function (ClassMetadata $metadata, array $emConfig): void {
             ->build();
 
     $builder->createManyToMany('tags', Tag\Entity\Tag::class)
-            ->setJoinTable(determineTableName('short_urls_in_tags', $emConfig))
+            ->setJoinTable('short_urls_in_tags')
             ->addInverseJoinColumn('tag_id', 'id', onDelete: 'CASCADE')
             ->addJoinColumn('short_url_id', 'id', onDelete: 'CASCADE')
             ->setOrderBy(['name' => 'ASC'])

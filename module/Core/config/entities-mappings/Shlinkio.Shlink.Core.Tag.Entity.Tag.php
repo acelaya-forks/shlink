@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 return static function (ClassMetadata $metadata, array $emConfig): void {
     $builder = new ClassMetadataBuilder($metadata);
 
-    $builder->setTable(determineTableName('tags', $emConfig))
+    $builder->setTable('tags')
             ->setCustomRepositoryClass(Tag\Repository\TagRepository::class);
 
     $builder->createField('id', Types::BIGINT)

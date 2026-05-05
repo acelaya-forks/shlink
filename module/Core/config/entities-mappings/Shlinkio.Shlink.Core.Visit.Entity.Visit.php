@@ -15,7 +15,7 @@ use Shlinkio\Shlink\Core\Visit\Model\VisitType;
 return static function (ClassMetadata $metadata, array $emConfig): void {
     $builder = new ClassMetadataBuilder($metadata);
 
-    $builder->setTable(determineTableName('visits', $emConfig))
+    $builder->setTable('visits')
             ->setCustomRepositoryClass(Visit\Repository\VisitRepository::class);
 
     $builder->createField('id', Types::BIGINT)

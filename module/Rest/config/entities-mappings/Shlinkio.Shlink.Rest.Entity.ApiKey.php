@@ -10,12 +10,10 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 use Shlinkio\Shlink\Common\Doctrine\Type\ChronosDateTimeType;
 use Shlinkio\Shlink\Rest\Entity\ApiKeyRole;
 
-use function Shlinkio\Shlink\Core\determineTableName;
-
-return static function (ClassMetadata $metadata, array $emConfig): void {
+return static function (ClassMetadata $metadata): void {
     $builder = new ClassMetadataBuilder($metadata);
 
-    $builder->setTable(determineTableName('api_keys', $emConfig))
+    $builder->setTable('api_keys')
             ->setCustomRepositoryClass(ApiKey\Repository\ApiKeyRepository::class);
 
     $builder->createField('id', Types::BIGINT)

@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 return static function (ClassMetadata $metadata, array $emConfig): void {
     $builder = new ClassMetadataBuilder($metadata);
 
-    $builder->setTable(determineTableName('visit_locations', $emConfig));
+    $builder->setTable('visit_locations');
 
     $builder->createField('id', Types::BIGINT)
             ->columnName('id')

@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 return static function (ClassMetadata $metadata, array $emConfig): void {
     $builder = new ClassMetadataBuilder($metadata);
 
-    $builder->setTable(determineTableName('orphan_visits_counts', $emConfig))
+    $builder->setTable('orphan_visits_counts')
             ->setCustomRepositoryClass(Visit\Repository\OrphanVisitsCountRepository::class);
 
     $builder->createField('id', Types::BIGINT)

@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 return static function (ClassMetadata $metadata, array $emConfig): void {
     $builder = new ClassMetadataBuilder($metadata);
 
-    $builder->setTable(determineTableName('short_url_redirect_rules', $emConfig));
+    $builder->setTable('short_url_redirect_rules');
 
     $builder->createField('id', Types::BIGINT)
             ->columnName('id')
@@ -36,7 +36,7 @@ return static function (ClassMetadata $metadata, array $emConfig): void {
     // We treat this ManyToMany relation as a unidirectional OneToMany, where conditions are persisted and deleted
     // together with the rule
     $builder->createManyToMany('conditions', RedirectRule\Entity\RedirectCondition::class)
-            ->setJoinTable(determineTableName('redirect_conditions_in_short_url_redirect_rules', $emConfig))
+            ->setJoinTable('redirect_conditions_in_short_url_redirect_rules')
             ->addInverseJoinColumn('redirect_condition_id', 'id', onDelete: 'CASCADE')
             ->addJoinColumn('short_url_redirect_rule_id', 'id', onDelete: 'CASCADE')
             ->setOrderBy(['id' => 'ASC']) // Ensure a reliable order in the list of conditions

@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 return static function (ClassMetadata $metadata, array $emConfig): void {
     $builder = new ClassMetadataBuilder($metadata);
 
-    $builder->setTable(determineTableName('short_url_visits_counts', $emConfig))
+    $builder->setTable('short_url_visits_counts')
             ->setCustomRepositoryClass(Visit\Repository\ShortUrlVisitsCountRepository::class);
 
     $builder->createField('id', Types::BIGINT)
