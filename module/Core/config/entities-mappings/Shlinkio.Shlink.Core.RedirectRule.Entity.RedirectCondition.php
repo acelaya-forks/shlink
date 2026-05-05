@@ -13,7 +13,7 @@ use Shlinkio\Shlink\Core\RedirectRule\Model\RedirectConditionType;
 return static function (ClassMetadata $metadata, array $emConfig): void {
     $builder = new ClassMetadataBuilder($metadata);
 
-    $builder->setTable(determineTableName('redirect_conditions', $emConfig));
+    $builder->setTable('redirect_conditions');
 
     $builder->createField('id', Types::BIGINT)
             ->columnName('id')

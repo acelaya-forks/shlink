@@ -11,12 +11,10 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 use Shlinkio\Shlink\Rest\ApiKey\Role;
 use Shlinkio\Shlink\Rest\Entity\ApiKey;
 
-use function Shlinkio\Shlink\Core\determineTableName;
-
-return static function (ClassMetadata $metadata, array $emConfig): void {
+return static function (ClassMetadata $metadata): void {
     $builder = new ClassMetadataBuilder($metadata);
 
-    $builder->setTable(determineTableName('api_key_roles', $emConfig));
+    $builder->setTable('api_key_roles');
 
     $builder->createField('id', Types::BIGINT)
             ->makePrimaryKey()

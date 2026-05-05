@@ -207,18 +207,6 @@ function parseUserAgent(string $userAgent): UserAgent
     return $uaParser->parse($userAgent);
 }
 
-function determineTableName(string $tableName, array $emConfig = []): string
-{
-    $schema = $emConfig['connection']['schema'] ?? null;
-//    $tablePrefix = $emConfig['connection']['table_prefix'] ?? null; // TODO
-
-    if ($schema === null) {
-        return $tableName;
-    }
-
-    return sprintf('%s.%s', $schema, $tableName);
-}
-
 function fieldWithUtf8Charset(FieldBuilder $field, array $emConfig, string $collation = 'unicode_ci'): FieldBuilder
 {
     return match ($emConfig['connection']['driver'] ?? null) {

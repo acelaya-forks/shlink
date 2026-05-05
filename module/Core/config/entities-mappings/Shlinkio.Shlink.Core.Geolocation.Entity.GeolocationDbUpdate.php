@@ -14,7 +14,7 @@ use Shlinkio\Shlink\Core\Geolocation\Entity\GeolocationDbUpdateStatus;
 return static function (ClassMetadata $metadata, array $emConfig): void {
     $builder = new ClassMetadataBuilder($metadata);
 
-    $builder->setTable(determineTableName('geolocation_db_updates', $emConfig));
+    $builder->setTable('geolocation_db_updates');
 
     $builder->createField('id', Types::BIGINT)
             ->columnName('id')
