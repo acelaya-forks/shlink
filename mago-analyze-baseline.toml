@@ -685,6 +685,66 @@ message = "Potential static method call on interface `BackedEnum` via `class-str
 count = 1
 
 [[issues]]
+file = "module/Core/migrations/Version20230211171904.php"
+code = "deprecated-method"
+message = 'Call to deprecated method: `Doctrine\DBAL\Schema\Table::addIndex`.'
+count = 1
+
+[[issues]]
+file = "module/Core/migrations/Version20230303164233.php"
+code = "deprecated-method"
+message = 'Call to deprecated method: `Doctrine\DBAL\Schema\Table::addIndex`.'
+count = 1
+
+[[issues]]
+file = "module/Core/migrations/Version20230303164233.php"
+code = "deprecated-method"
+message = 'Call to deprecated method: `Doctrine\DBAL\Schema\Table::dropIndex`.'
+count = 1
+
+[[issues]]
+file = "module/Core/migrations/Version20240220214031.php"
+code = "deprecated-method"
+message = 'Call to deprecated method: `Doctrine\DBAL\Schema\Column::getType`.'
+count = 1
+
+[[issues]]
+file = "module/Core/migrations/Version20240220214031.php"
+code = "deprecated-method"
+message = 'Call to deprecated method: `Doctrine\DBAL\Schema\Column::setType`.'
+count = 1
+
+[[issues]]
+file = "module/Core/migrations/Version20240220214031.php"
+code = "deprecated-method"
+message = 'Call to deprecated method: `Doctrine\DBAL\Schema\Table::modifyColumn`.'
+count = 1
+
+[[issues]]
+file = "module/Core/migrations/Version20240224115725.php"
+code = "deprecated-method"
+message = 'Call to deprecated method: `Doctrine\DBAL\Schema\Schema::createTable`.'
+count = 2
+
+[[issues]]
+file = "module/Core/migrations/Version20240224115725.php"
+code = "deprecated-method"
+message = 'Call to deprecated method: `Doctrine\DBAL\Schema\Schema::dropTable`.'
+count = 3
+
+[[issues]]
+file = "module/Core/migrations/Version20240224115725.php"
+code = "deprecated-method"
+message = 'Call to deprecated method: `Doctrine\DBAL\Schema\Table::addColumn`.'
+count = 9
+
+[[issues]]
+file = "module/Core/migrations/Version20240224115725.php"
+code = "deprecated-method"
+message = 'Call to deprecated method: `Doctrine\DBAL\Schema\Table::addForeignKeyConstraint`.'
+count = 3
+
+[[issues]]
 file = "module/Core/migrations/Version20240224115725.php"
 code = "deprecated-method"
 message = 'Call to deprecated method: `Doctrine\DBAL\Schema\Table::setPrimaryKey`.'
@@ -699,7 +759,67 @@ count = 2
 [[issues]]
 file = "module/Core/migrations/Version20240227080629.php"
 code = "deprecated-method"
+message = 'Call to deprecated method: `Doctrine\DBAL\Schema\Schema::createTable`.'
+count = 1
+
+[[issues]]
+file = "module/Core/migrations/Version20240227080629.php"
+code = "deprecated-method"
+message = 'Call to deprecated method: `Doctrine\DBAL\Schema\Schema::dropTable`.'
+count = 1
+
+[[issues]]
+file = "module/Core/migrations/Version20240227080629.php"
+code = "deprecated-method"
+message = 'Call to deprecated method: `Doctrine\DBAL\Schema\Table::addColumn`.'
+count = 4
+
+[[issues]]
+file = "module/Core/migrations/Version20240227080629.php"
+code = "deprecated-method"
+message = 'Call to deprecated method: `Doctrine\DBAL\Schema\Table::addForeignKeyConstraint`.'
+count = 1
+
+[[issues]]
+file = "module/Core/migrations/Version20240227080629.php"
+code = "deprecated-method"
+message = 'Call to deprecated method: `Doctrine\DBAL\Schema\Table::addUniqueIndex`.'
+count = 1
+
+[[issues]]
+file = "module/Core/migrations/Version20240227080629.php"
+code = "deprecated-method"
 message = 'Call to deprecated method: `Doctrine\DBAL\Schema\Table::setPrimaryKey`.'
+count = 1
+
+[[issues]]
+file = "module/Core/migrations/Version20240306132518.php"
+code = "deprecated-method"
+message = 'Call to deprecated method: `Doctrine\DBAL\Schema\Schema::createTable`.'
+count = 1
+
+[[issues]]
+file = "module/Core/migrations/Version20240306132518.php"
+code = "deprecated-method"
+message = 'Call to deprecated method: `Doctrine\DBAL\Schema\Schema::dropTable`.'
+count = 1
+
+[[issues]]
+file = "module/Core/migrations/Version20240306132518.php"
+code = "deprecated-method"
+message = 'Call to deprecated method: `Doctrine\DBAL\Schema\Table::addColumn`.'
+count = 5
+
+[[issues]]
+file = "module/Core/migrations/Version20240306132518.php"
+code = "deprecated-method"
+message = 'Call to deprecated method: `Doctrine\DBAL\Schema\Table::addForeignKeyConstraint`.'
+count = 1
+
+[[issues]]
+file = "module/Core/migrations/Version20240306132518.php"
+code = "deprecated-method"
+message = 'Call to deprecated method: `Doctrine\DBAL\Schema\Table::addUniqueIndex`.'
 count = 1
 
 [[issues]]
@@ -731,6 +851,30 @@ file = "module/Core/migrations/Version20240318084804.php"
 code = "mixed-operand"
 message = "Left operand in `>` comparison has `mixed` type."
 count = 2
+
+[[issues]]
+file = "module/Core/migrations/Version20240331111103.php"
+code = "deprecated-method"
+message = 'Call to deprecated method: `Doctrine\DBAL\Schema\Schema::createTable`.'
+count = 1
+
+[[issues]]
+file = "module/Core/migrations/Version20240331111103.php"
+code = "deprecated-method"
+message = 'Call to deprecated method: `Doctrine\DBAL\Schema\Schema::dropTable`.'
+count = 1
+
+[[issues]]
+file = "module/Core/migrations/Version20240331111103.php"
+code = "deprecated-method"
+message = 'Call to deprecated method: `Doctrine\DBAL\Schema\Table::addColumn`.'
+count = 4
+
+[[issues]]
+file = "module/Core/migrations/Version20240331111103.php"
+code = "deprecated-method"
+message = 'Call to deprecated method: `Doctrine\DBAL\Schema\Table::addUniqueIndex`.'
+count = 1
 
 [[issues]]
 file = "module/Core/migrations/Version20240331111103.php"
@@ -781,9 +925,93 @@ message = "Assigning `mixed` type to a variable may lead to unexpected behavior.
 count = 1
 
 [[issues]]
+file = "module/Core/migrations/Version20241124112257.php"
+code = "deprecated-method"
+message = 'Call to deprecated method: `Doctrine\DBAL\Schema\Table::addColumn`.'
+count = 1
+
+[[issues]]
+file = "module/Core/migrations/Version20241124112257.php"
+code = "deprecated-method"
+message = 'Call to deprecated method: `Doctrine\DBAL\Schema\Table::dropColumn`.'
+count = 1
+
+[[issues]]
+file = "module/Core/migrations/Version20241125213106.php"
+code = "deprecated-method"
+message = 'Call to deprecated method: `Doctrine\DBAL\Schema\Table::addUniqueIndex`.'
+count = 1
+
+[[issues]]
+file = "module/Core/migrations/Version20241125213106.php"
+code = "deprecated-method"
+message = 'Call to deprecated method: `Doctrine\DBAL\Schema\Table::dropIndex`.'
+count = 1
+
+[[issues]]
+file = "module/Core/migrations/Version20241212131058.php"
+code = "deprecated-method"
+message = 'Call to deprecated method: `Doctrine\DBAL\Schema\Schema::createTable`.'
+count = 1
+
+[[issues]]
+file = "module/Core/migrations/Version20241212131058.php"
+code = "deprecated-method"
+message = 'Call to deprecated method: `Doctrine\DBAL\Schema\Schema::dropTable`.'
+count = 1
+
+[[issues]]
+file = "module/Core/migrations/Version20241212131058.php"
+code = "deprecated-method"
+message = 'Call to deprecated method: `Doctrine\DBAL\Schema\Table::addColumn`.'
+count = 7
+
+[[issues]]
+file = "module/Core/migrations/Version20241212131058.php"
+code = "deprecated-method"
+message = 'Call to deprecated method: `Doctrine\DBAL\Schema\Table::addIndex`.'
+count = 2
+
+[[issues]]
 file = "module/Core/migrations/Version20241212131058.php"
 code = "deprecated-method"
 message = 'Call to deprecated method: `Doctrine\DBAL\Schema\Table::setPrimaryKey`.'
+count = 1
+
+[[issues]]
+file = "module/Core/migrations/Version20250215100756.php"
+code = "deprecated-method"
+message = 'Call to deprecated method: `Doctrine\DBAL\Schema\Table::dropIndex`.'
+count = 1
+
+[[issues]]
+file = "module/Core/migrations/Version20250722060208.php"
+code = "deprecated-method"
+message = 'Call to deprecated method: `Doctrine\DBAL\Schema\Column::setNotnull`.'
+count = 1
+
+[[issues]]
+file = "module/Core/migrations/Version20260524105410.php"
+code = "deprecated-method"
+message = 'Call to deprecated method: `Doctrine\DBAL\Schema\Table::addColumn`.'
+count = 1
+
+[[issues]]
+file = "module/Core/migrations/Version20260524105410.php"
+code = "deprecated-method"
+message = 'Call to deprecated method: `Doctrine\DBAL\Schema\Table::addIndex`.'
+count = 1
+
+[[issues]]
+file = "module/Core/migrations/Version20260524105410.php"
+code = "deprecated-method"
+message = 'Call to deprecated method: `Doctrine\DBAL\Schema\Table::dropColumn`.'
+count = 1
+
+[[issues]]
+file = "module/Core/migrations/Version20260524105410.php"
+code = "deprecated-method"
+message = 'Call to deprecated method: `Doctrine\DBAL\Schema\Table::dropIndex`.'
 count = 1
 
 [[issues]]
@@ -2107,30 +2335,6 @@ message = "This member selector uses a non-literal string type (`string`); its s
 count = 3
 
 [[issues]]
-file = "module/Rest/src/Action/MercureInfoAction.php"
-code = "mixed-argument"
-message = 'Invalid argument type for argument #1 of `Cake\Chronos\Chronos::addDays`: expected `int`, but found `nonnull`.'
-count = 1
-
-[[issues]]
-file = "module/Rest/src/Action/MercureInfoAction.php"
-code = "mixed-argument"
-message = "Invalid argument type for argument #2 of `sprintf`: expected `Stringable|null|scalar`, but found `nonnull`."
-count = 1
-
-[[issues]]
-file = "module/Rest/src/Action/MercureInfoAction.php"
-code = "mixed-assignment"
-message = "Assigning `mixed` type to a variable may lead to unexpected behavior."
-count = 1
-
-[[issues]]
-file = "module/Rest/src/Action/MercureInfoAction.php"
-code = "mixed-assignment"
-message = "Assigning `nonnull` type to a variable may lead to unexpected behavior."
-count = 1
-
-[[issues]]
 file = "module/Rest/src/Action/RedirectRule/SetRedirectRulesAction.php"
 code = "invalid-type-cast"
 message = "Casting type `null` to `array` will produce an empty array."
@@ -2530,7 +2734,7 @@ count = 3
 file = "module/Rest/test/Action/MercureInfoActionTest.php"
 code = "mixed-array-access"
 message = "Unsafe array access on type `mixed`."
-count = 2
+count = 3
 
 [[issues]]
 file = "module/Rest/test/Action/MercureInfoActionTest.php"
